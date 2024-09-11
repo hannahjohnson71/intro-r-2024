@@ -19,3 +19,7 @@ data_detectors_meta <- data_detectors |>
 data_detectors_missing <- detectors |>
   anti_join(data_detectors, by = c("detectorid" = "detector_id")) |>
   distinct(detectorid)
+
+data_detectors_stations <- data_detectors_meta |>
+  select(detector_id, stationid) |>
+  left_join(stations, by = "stationid")
