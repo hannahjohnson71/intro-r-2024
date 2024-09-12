@@ -18,3 +18,5 @@ meta_unnest_more <- meta_unnest_df %>%
   unnest(cols = names(.)) %>%
   unnest(cols = names(.)) %>%
   type_convert()
+
+saveRDS(meta_unnest_more, "data/unnested_wsdot_stations_meta.rds")
