@@ -67,3 +67,20 @@ df_mode_comma_ungrp <- df |> group_by(travel_mode, serial_comma) |>
   summarize(avg_speed = mean(travel_speed)) |>
   ungroup()
 
+# frequencies ----
+df |> group_by(serial_comma) |> 
+  summarize(n = n()) |>
+  arrange(desc(n))
+
+df |> group_by(serial_comma) |> 
+  tally() |>
+  arrange(desc(n))
+
+df |> count(serial_comma) |>  arrange(desc(n))
+df |> count(serial_comma, sort=T)
+
+  # calculate a mode split (percentage using each travel mode)
+df |> group_by(travel_mode) |>
+  summarize(split = n() / nrow(df) * 100) |>
+  arrange(desc(split))
+
