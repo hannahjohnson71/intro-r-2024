@@ -100,3 +100,27 @@ write.csv(data_with_gaps, "data/data_with_gaps.csv", row.names = F)
   # save as R data structure "RDS object"
     # keeps class structures, takes up only a tiny amount of space, etc.
 saveRDS(data_with_gaps, "data/data_with_gaps.rds")
+
+mod_date_fig <- data_with_gaps |>
+  filter(station_id %in% c(1056, 1057, 1059)) |>
+  ggplot(aes(x = date_seq, y = daily_volume)) +
+  geom_line(aes(color = "blue")) +
+  geom_point(aes(color = "skyblue")) +
+  facet_grid(station_id ~ .)
+mod_date_fig
+
+mod_date_fig2 <- mod_date_fig +
+  scale_x_date(date_breaks = "1 day") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+mod_date_fig2 # throws error, do not use
+
+mod_date_fig <- data_with_gaps |>
+  filter(station_id %in% c(1056, 1057, 1059)) |>
+  ggplot(aes(x = as.Date(date_seq), y = daily_volume)) +
+  geom_line(aes(color = "blue")) +
+  geom_point(aes(color = "skyblue")) +
+  facet_grid(station_id ~ .) +
+  scale_x_date(date_breaks = "1 day") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  geom_hline(yintercept = mean(daily_data$daily_volume))
+mod_date_fig
