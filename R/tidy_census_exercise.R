@@ -104,3 +104,28 @@ p <- comm_19_22 |>
                              comm_19_22$transit_chg), 2)))
     # annotation
 p
+
+# simple linear (default Peason) correlation in annotation
+cor(comm_19_22$wfh_chg, comm_19_22$transit_chg)
+
+# model it...
+# dependent variable on left side of ~, independent on right side of ~
+# model formula is dependent_variable ~ 1 + var1 + var2 ...
+m <- lm(transit_chg ~ wfh_chg,
+        data = comm_19_22)
+summary(m)
+
+# the model is an object ready for re-use!!
+head(m$model)
+
+# scenario 1 where wfh is increased by 50%
+scen1 <- comm_19_22 |>
+  mutate(wfh_chg = wfh_chg * 1.5)
+scen1_pred <- predict(m, newdata = scen1)
+# predict function with scenario 1 data
+# different in total daily transit impact from 50% increase in WFH
+sum(comm_19_22$transit_chg)
+sum(scen1_pred)
+# would lose about 4000 daily trips if WFH increases by 50%
+
+# update(model, data =) function re-estimates model on new data
